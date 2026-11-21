@@ -1,0 +1,24 @@
+# Render blueprint for the backend.
+# Use this file at the root of the backend repository (or add `rootDir: backend`
+# if you deploy the monorepo directly).
+services:
+  - type: web
+    name: secure-note-taking-api
+    runtime: node
+    plan: free
+    buildCommand: npm ci
+    startCommand: npm start
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_EXPIRES_IN
+        value: 1h
+      - key: BCRYPT_ROUNDS
+        value: 12
+      - key: CORS_ORIGINS
+        sync: false
